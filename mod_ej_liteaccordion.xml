@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
     type="module"
-    version="4.0"
     client="site"
     method="upgrade">
   <name>MOD_EJ_LITEACCORDION</name>
@@ -54,7 +53,7 @@
     <filename>css/liteaccordion.css</filename>
     <filename>css/index.html</filename>
     <folder>js</folder>
-    <filename>js/jquery.liteaccordion.min.js</filename>
+    <filename>js/liteaccordion.jquery.min.js</filename>
     <filename>js/index.html</filename>
     <folder>images</folder>
   </media>

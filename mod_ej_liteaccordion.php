@@ -13,7 +13,6 @@ defined('_JEXEC') || die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper; // Για JHtml::script/stylesheet
 
@@ -41,7 +40,7 @@ $coreCssFile = $relCssUrl . 'liteaccordion.css';
 $fullCoreCssUrl = Uri::base(true) . $coreCssFile;
 $fullCoreCssPath = JPATH_ROOT . '/' . $coreCssFile;
 
-if (File::exists($fullCoreCssPath)) {
+if (is_file($fullCoreCssPath)) {
     HTMLHelper::stylesheet($fullCoreCssUrl); // Use HTMLHelper for consistency and potential Joomla optimizations
 } else {
     // Log a warning if the core CSS file is missing
@@ -60,7 +59,7 @@ $liteAccordionJsFile = $relJsUrl . 'liteaccordion.jquery.min.js'; // Use the min
 $fullLiteAccordionJsUrl = Uri::base(true) . $liteAccordionJsFile;
 $fullLiteAccordionJsPath = JPATH_ROOT . '/' . $liteAccordionJsFile;
 
-if (File::exists($fullLiteAccordionJsPath)) {
+if (is_file($fullLiteAccordionJsPath)) {
 	HTMLHelper::script($fullLiteAccordionJsUrl, ['version' => 'auto', 'defer' => true]);
 } else {
 	Factory::getApplication()->enqueueMessage(
@@ -74,7 +73,7 @@ $easingJsFile = $relJsUrl . 'easing.js';
 $fullEasingJsUrl = Uri::base(true) . $easingJsFile;
 $fullEasingJsPath = JPATH_ROOT . '/' . $easingJsFile;
 
-if (File::exists($fullEasingJsPath)) {
+if (is_file($fullEasingJsPath)) {
 	HTMLHelper::script($fullEasingJsUrl, ['version' => 'auto', 'defer' => true]);
 } else {
 	Factory::getApplication()->enqueueMessage(
@@ -95,7 +94,7 @@ if ($fldStyleScheme === 'custom') {
         $customFileUrl = $baseCssUrl . $potentialCustomFile;
         $fullCustomFilePath = JPATH_ROOT . str_replace(Uri::root(true), '', $customFileUrl);
 
-        if (File::exists($fullCustomFilePath)) {
+        if (is_file($fullCustomFilePath)) {
             HTMLHelper::stylesheet($customFileUrl);
         }
         // If the file is not found, no action is taken. The admin can define styles in the template CSS.
