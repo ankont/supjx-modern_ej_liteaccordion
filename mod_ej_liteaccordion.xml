@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+    type="module"
+    version="4.0"
+    client="site"
+    method="upgrade">
+  <name>MOD_EJ_LITEACCORDION</name>
+  <author>Andreas Kontarinis &amp; Element J</author>
+  <creationDate>June 2025</creationDate>
+  <copyright>Copyright (C) 2006 - 2025 Andreas Kontarinis &amp; Element-J.com. All rights reserved.</copyright>
+  <license>GNU General Public License version 2 or later</license>
+  <authorEmail>ankont@sch.gr</authorEmail>
+  <authorUrl>superor.wordpress.com</authorUrl>
+  <version>2.0.0</version>
+  <description>
+    <![CDATA[
+    <div class="ej_description">
+      <span class="ej_title">EJ LiteAccordion Module</span>
+      <span class="ej_subtitle">
+        Ported for J4 by <b>Andreas Kontarinis</b>, with assistance from <b><i>ChatGPT</i></b> and <b><i>Gemini</i></b>. Original J3 module by <b>Element J</b> (original module website dead).
+      </span>
+      <p>
+        The EJ LiteAccordion module displays your images in the slick jQuery
+        based LiteAccordion Slider (
+        <a href="http://nicolahibbert.com/demo/liteAccordion/" target="_blank">
+          http://nicolahibbert.com/demo/liteAccordion/
+        </a>
+        ). Images are pulled dynamically from your site content and are
+        automatically resized to the dimensions you specify. Titles and
+        Captions can be drawn from your content. Linking to your Joomla content
+        is also supported!
+      </p>
+    </div>
+    ]]>
+  </description>
+
+	<languages folder="language">
+        <language tag="en-GB">en-GB/mod_ej_liteaccordion.ini</language>
+        <language tag="en-GB">en-GB/mod_ej_liteaccordion.sys.ini</language>
+        <language tag="el-GR">el-GR/mod_ej_liteaccordion.ini</language>
+        <language tag="el-GR">el-GR/mod_ej_liteaccordion.sys.ini</language>
+    </languages>
+
+  <files>
+    <filename module="mod_ej_liteaccordion">mod_ej_liteaccordion.php</filename>
+    <filename>mod_ej_liteaccordion.xml</filename>
+    <filename>helper.php</filename>
+    <filename>index.html</filename>
+    <folder>tmpl</folder>
+  </files>
+
+  <media folder="media" destination="mod_ej_liteaccordion">
+    <folder>css</folder>
+    <filename>css/liteaccordion.css</filename>
+    <filename>css/index.html</filename>
+    <folder>js</folder>
+    <filename>js/jquery.liteaccordion.min.js</filename>
+    <filename>js/index.html</filename>
+    <folder>images</folder>
+  </media>
+
+  <config>
+    <fields name="params">
+
+      <fieldset name="basic" label="LiteAccordion Options">
+        <field
+          name="ejla_count"
+          type="number"
+          default="5"
+          label="MOD_EJ_LITEACCORDION_FIELD_COUNT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_COUNT_DESC"
+          min="1" />
+
+        <field
+          name="ejla_ordering"
+          type="list"
+          default="a.publish_up"
+          label="MOD_EJ_LITEACCORDION_FIELD_ORDERING_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_ORDERING_DESC">
+          <option value="a.publish_up ASC">MOD_EJ_LITEACCORDION_FIELD_PUBLISH_DATE_UP</option>
+          <option value="a.publish_up">MOD_EJ_LITEACCORDION_FIELD_PUBLISH_DATE_DOWN</option>
+          <option value="a.created ASC">MOD_EJ_LITEACCORDION_FIELD_CREATE_DATE_UP</option>
+          <option value="a.created">MOD_EJ_LITEACCORDION_FIELD_CREATE_DATE_DOWN</option>
+          <option value="a.ordering">MOD_EJ_LITEACCORDION_FIELD_ORDERING</option>
+          <option value="rand()">MOD_EJ_LITEACCORDION_FIELD_RANDOM</option>
+        </field>
+
+        <field
+          name="ejla_activate_on"
+          type="radio"
+          class="btn-group"
+          default="click"
+          label="MOD_EJ_LITEACCORDION_FIELD_ACTIVATE_ON_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_ACTIVATE_ON_DESC">
+          <option value="click">MOD_EJ_LITEACCORDION_FIELD_ACTIVATE_ON_CLICK</option>
+          <option value="mouseover">MOD_EJ_LITEACCORDION_FIELD_ACTIVATE_ON_MOUSE</option>
+        </field>
+
+        <field
+          name="ejla_autostart"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_AUTO_START_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_AUTO_START_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_easing"
+          type="list"
+          default="swing"
+          label="MOD_EJ_LITEACCORDION_FIELD_EASING_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_EASING_DESC">
+          <option value="swing">swing</option>
+          <option value="easeInQuad">easeInQuad</option>
+          <option value="easeOutQuad">easeOutQuad</option>
+          <option value="easeInOutQuad">easeInOutQuad</option>
+          <option value="easeInCubic">easeInCubic</option>
+          <option value="easeOutCubic">easeOutCubic</option>
+          <option value="easeInOutCubic">easeInOutCubic</option>
+          <option value="easeInQuart">easeInQuart</option>
+          <option value="easeOutQuart">easeOutQuart</option>
+          <option value="easeInOutQuart">easeInOutQuart</option>
+          <option value="easeInQuint">easeInQuint</option>
+          <option value="easeOutQuint">easeOutQuint</option>
+          <option value="easeInOutQuint">easeInOutQuint</option>
+          <option value="easeInSine">easeInSine</option>
+          <option value="easeOutSine">easeOutSine</option>
+          <option value="easeInOutSine">easeInOutSine</option>
+          <option value="easeInExpo">easeInExpo</option>
+          <option value="easeOutExpo">easeOutExpo</option>
+          <option value="easeInOutExpo">easeInOutExpo</option>
+          <option value="easeInCirc">easeInCirc</option>
+          <option value="easeOutCirc">easeOutCirc</option>
+          <option value="easeInOutCirc">easeInOutCirc</option>
+          <option value="easeInElastic">easeInElastic</option>
+          <option value="easeOutElastic">easeOutElastic</option>
+          <option value="easeInOutElastic">easeInOutElastic</option>
+          <option value="easeInBack">easeInBack</option>
+          <option value="easeOutBack">easeOutBack</option>
+          <option value="easeInOutBack">easeInOutBack</option>
+          <option value="easeInBounce">easeInBounce</option>
+          <option value="easeOutBounce">easeOutBounce</option>
+          <option value="easeInOutBounce">easeInOutBounce</option>
+        </field>
+
+        <field
+          name="ejla_stylescheme"
+          type="list"
+          default="dark"
+          label="MOD_EJ_LITEACCORDION_FIELD_STYLE_SCHEME_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_STYLE_SCHEME_DESC">
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+          <option value="stitch">Stitch</option>
+          <option value="basic">Basic</option>
+          <option value="custom">MOD_EJ_LITEACCORDION_FIELD_CUSTOM_CLASS_LABEL</option>
+        </field>
+
+        <field
+          name="ejla_stylescheme_custom"
+          type="text"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_CUSTOM_CLASS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_CUSTOM_CLASS_DESC"
+          showon="ejla_stylescheme:custom" />
+
+        <field
+          name="ejla_roundedstyle"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_ROUND_CORNERS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_ROUND_CORNERS_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_pauseonhover"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_PAUSE_ON_HOVER_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PAUSE_ON_HOVER_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_cyclespeed"
+          type="number"
+          default="6000"
+          label="MOD_EJ_LITEACCORDION_FIELD_CYCLE_SPEED_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_CYCLE_SPEED_DESC"
+          min="0" />
+
+        <field
+          name="ejla_slidespeed"
+          type="number"
+          default="800"
+          label="MOD_EJ_LITEACCORDION_FIELD_SLIDE_SPEED_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SLIDE_SPEED_DESC"
+          min="0" />
+
+        <field
+          name="ejla_headerwidth"
+          type="number"
+          default="48"
+          label="MOD_EJ_LITEACCORDION_FIELD_HEADER_WIDTH_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_HEADER_WIDTH_DESC"
+          min="1" />
+
+        <field
+          name="ejla_pic_link"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_LINK_LARGE_IMAGE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LINK_LARGE_IMAGE_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_pic_width"
+          type="text"
+          default="900"
+          label="MOD_EJ_LITEACCORDION_FIELD_LARGE_WIDTH_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LARGE_WIDTH_DESC" />
+
+        <field
+          name="ejla_pic_height"
+          type="text"
+          default="400"
+          label="MOD_EJ_LITEACCORDION_FIELD_LARGE_HEIGHT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LARGE_HEIGHT_DESC" />
+
+		<field
+			name="ejla_pic_fit"
+			type="list"
+			default="cover"
+			label="MOD_EJ_LITEACCORDION_FIELD_LARGE_FIT_LABEL"
+			description="MOD_EJ_LITEACCORDION_FIELD_LARGE_FIT_DESC">
+			<option value="contain">MOD_EJ_LITEACCORDION_FIT_CONTAIN</option>
+			<option value="scale-down">MOD_EJ_LITEACCORDION_FIT_SCALE_DOWN</option>
+			<option value="cover">MOD_EJ_LITEACCORDION_FIT_COVER</option>
+			<option value="fill">MOD_EJ_LITEACCORDION_FIT_FILL</option>
+			<option value="none">MOD_EJ_LITEACCORDION_FIT_NONE</option>
+		</field>
+
+        <field
+          name="ejla_pic_class"
+          type="text"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_LARGE_CLASS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LARGE_CLASS_DESC" />
+
+        <field
+          name="ejla_pic_css"
+          type="textarea"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_LARGE_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LARGE_CSS_DESC" />
+
+        <field
+          name="ejla_placeholder_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_COLOR_DESC" />
+
+        <field
+          name="ejla_placeholder_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_CSS_DESC" />
+
+        <field
+          name="ejla_placeholder_image"
+          type="media"
+          label="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_IMAGE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PLACEHOLDER_IMAGE_DESC"
+          folder="media/mod_ej_liteaccordion/images"
+          accept="image/*" />
+		  
+        <field
+          name="ejla_frame_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_FRAME_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_FRAME_CSS_DESC" />
+
+        <field
+          name="ejla_details_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_DETAILS_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_DETAILS_CSS_DESC" />
+
+        <field
+          name="ejla_buildnavnum"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_NUMBERS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_NUMBERS_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_pagingnums_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_PAGING_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PAGING_CSS_DESC" />
+
+        <field
+          name="ejla_pagingnums_on_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_PAGING_ON_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_PAGING_ON_CSS_DESC" />
+
+        <field
+          name="ejla_vtitle_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_VTITLE_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_VTITLE_CSS_DESC" />
+
+        <!-- Captions Section -->
+        <field
+          name="ejla_show_caption"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_CAPTIONS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_CAPTIONS_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_link_caption"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_LINK_CAPTIONS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LINK_CAPTIONS_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <!-- Image Caption -->
+        <field
+          name="ejla_show_image_caption"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_IMAGE_CAPTION_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_IMAGE_CAPTION_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_image_caption_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_IMAGE_CAPTION_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_IMAGE_CAPTION_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_image_caption:1" />
+
+        <field
+          name="ejla_image_caption_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_IMAGE_CAPTION_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_IMAGE_CAPTION_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_image_caption:1" />
+
+        <!-- Title -->
+        <field
+          name="ejla_show_title"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_TITLE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_TITLE_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_link_title"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_LINK_TITLE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LINK_TITLE_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_title:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_title_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_TITLE_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_TITLE_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_title:1" />
+
+        <field
+          name="ejla_title_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_TITLE_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_TITLE_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_title:1" />
+
+        <!-- Date -->
+        <field
+          name="ejla_show_date"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_DATE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_DATE_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+	<field
+	    name="ejla_date_format"
+	    type="list"
+	    label="MOD_EJ_LITEACCORDION_FIELD_DATE_FORMAT_LABEL"
+	    description="MOD_EJ_LITEACCORDION_FIELD_DATE_FORMAT_DESC"
+	    default="DATE_FORMAT_LC2"
+	    showon="ejla_show_caption:1[AND]ejla_show_date:1">
+	  <!-- Joomla Formats LC1–LC4 -->
+	  <option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
+	  <option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
+	  <option value="DATE_FORMAT_LC3">DATE_FORMAT_LC3</option>
+	  <option value="DATE_FORMAT_LC4">DATE_FORMAT_LC4</option>
+	  <!-- Other Patterns -->
+	  <option value="Y.m.d">MOD_EJ_LITEACCORDION_DATEFMT_YMD_DOTS</option>
+	  <option value="d/m/Y">MOD_EJ_LITEACCORDION_DATEFMT_DMY_SLASH</option>
+	  <option value="F j, Y">MOD_EJ_LITEACCORDION_DATEFMT_FULL_MONTH</option>
+	  <!-- Custom Mode -->
+	  <option value="custom">MOD_EJ_LITEACCORDION_DATEFMT_CUSTOM</option>
+	</field>
+
+	<field
+	    name="ejla_date_format_custom"
+	    type="text"
+	    label="MOD_EJ_LITEACCORDION_FIELD_DATE_FORMAT_CUSTOM_LABEL"
+	    description="MOD_EJ_LITEACCORDION_FIELD_DATE_FORMAT_CUSTOM_DESC"
+	    default=""
+	    showon="ejla_show_date:1[AND]ejla_date_format:custom"
+	/>
+
+        <field
+          name="ejla_date_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_DATE_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_DATE_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_date:1" />
+
+        <field
+          name="ejla_date_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_DATE_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_DATE_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_date:1" />
+
+        <!-- Author -->
+        <field
+          name="ejla_show_author"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_AUTHOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_AUTHOR_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_author_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_AUTHOR_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_AUTHOR_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_author:1" />
+
+        <field
+          name="ejla_author_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_AUTHOR_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_AUTHOR_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_author:1" />
+
+        <!-- Intro Text -->
+        <field
+          name="ejla_show_intro"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_INTRO_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_INTRO_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_maxintro"
+          type="number"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_MAX_INTRO_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_MAX_INTRO_DESC"
+          min="1"
+          showon="ejla_show_caption:1[AND]ejla_show_intro:1" />
+
+        <field
+          name="ejla_intro_fallback"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_INTRO_FALLBACK_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_INTRO_FALLBACK_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_intro:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_intro_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_INTRO_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_INTRO_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_intro:1" />
+
+        <field
+          name="ejla_introtext_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_INTRO_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_INTRO_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_intro:1" />
+
+        <!-- Small (Thumbnail) Image -->
+        <field
+          name="ejla_show_thumb"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_THUMB_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_THUMB_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_thumb_link"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_LINK_THUMB_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LINK_THUMB_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_thumb_fallback"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_THUMB_FALLBACK_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_THUMB_FALLBACK_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_thumb_width"
+          type="number"
+          default="80"
+          label="MOD_EJ_LITEACCORDION_FIELD_THUMB_WIDTH_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_THUMB_WIDTH_DESC"
+          min="1"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1" />
+
+        <field
+          name="ejla_thumb_height"
+          type="number"
+          default="80"
+          label="MOD_EJ_LITEACCORDION_FIELD_THUMB_HEIGHT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_THUMB_HEIGHT_DESC"
+          min="1"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1" />
+
+		<field
+			name="ejla_thumb_fit"
+			type="list"
+			default="cover"
+			label="MOD_EJ_LITEACCORDION_FIELD_THUMB_FIT_LABEL"
+			description="MOD_EJ_LITEACCORDION_FIELD_THUMB_FIT_DESC"
+            showon="ejla_show_caption:1[AND]ejla_show_thumb:1">
+			<option value="contain">MOD_EJ_LITEACCORDION_FIT_CONTAIN</option>
+			<option value="scale-down">MOD_EJ_LITEACCORDION_FIT_SCALE_DOWN</option>
+			<option value="cover">MOD_EJ_LITEACCORDION_FIT_COVER</option>
+			<option value="fill">MOD_EJ_LITEACCORDION_FIT_FILL</option>
+			<option value="none">MOD_EJ_LITEACCORDION_FIT_NONE</option>
+		</field>
+
+        <field
+          name="ejla_thumb_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_THUMB_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_THUMB_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1" />
+
+        <field
+          name="ejla_thumb_css"
+          type="textarea"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_THUMB_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_THUMB_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_thumb:1" />
+
+        <!-- Read More -->
+        <field
+          name="ejla_show_readmore"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_SHOW_READMORE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_SHOW_READMORE_DESC"
+          showon="ejla_show_caption:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_readmoretext"
+          type="text"
+          default="Read More..."
+          label="MOD_EJ_LITEACCORDION_FIELD_READMORE_TEXT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_READMORE_TEXT_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_readmore:1" />
+
+        <field
+          name="ejla_force_readmore"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_FORCE_READMORE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_FORCE_READMORE_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_readmore:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_readmore_color"
+          type="color"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_READMORE_COLOR_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_READMORE_COLOR_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_readmore:1" />
+
+        <field
+          name="ejla_readmore_css"
+          type="textarea"
+          cols="40"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_READMORE_CSS_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_READMORE_CSS_DESC"
+          showon="ejla_show_caption:1[AND]ejla_show_readmore:1" />
+
+        <field
+          name="ejla_catid"
+          type="category"
+          extension="com_content"
+          multiple="true"
+          default=""
+          size="10"
+          label="MOD_EJ_LITEACCORDION_FIELD_CATEGORY_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_CATEGORY_DESC">
+          <option value="">JOPTION_ALL_CATEGORIES</option>
+        </field>
+
+      </fieldset>
+
+      <fieldset name="advanced">
+        <field
+          name="ejla_load_jq"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_LOAD_JQUERY_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_LOAD_JQUERY_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_pic_pathtype"
+          type="radio"
+          class="btn-group"
+          default="1"
+          label="MOD_EJ_LITEACCORDION_FIELD_JURI_BASE_METHOD_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_JURI_BASE_METHOD_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_site_subfolder"
+          type="text"
+          default=""
+          label="MOD_EJ_LITEACCORDION_FIELD_DIRECTORY_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_DIRECTORY_DESC" />
+
+        <field
+          name="ejla_cache"
+          type="list"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_CACHE_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_CACHE_DESC">
+          <option value="1">Use global</option>
+          <option value="0">No caching</option>
+        </field>
+
+        <field
+          name="ejla_cache_time"
+          type="number"
+          default="900"
+          label="MOD_EJ_LITEACCORDION_FIELD_CACHE_TIME_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_CACHE_TIME_DESC"
+          min="0" />
+      </fieldset>
+
+    </fields>
+  </config>
+</extension>
