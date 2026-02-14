@@ -455,7 +455,7 @@ function renderStyle(string $color, string $css, string $style = ''): string
 									$has_caption = true;
 
 									// Ξεκινάμε το <h2> με renderStyle για χρώμα+css
-									$htmlcaption .= '<h2' . renderStyle($fldTitleColor, $fldTitleCss) . '>';
+									$htmlcaption .= '<h2 ' . renderStyle($fldTitleColor, $fldTitleCss) . '>';
 
 									if ($fldLinkTitle === '1') {
 										// Αν θέλουμε link, τυπώνουμε <a> με ίδια renderStyle
