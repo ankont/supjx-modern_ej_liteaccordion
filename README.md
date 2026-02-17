@@ -14,6 +14,7 @@ Ported and modernized for Joomla 4/5/6 by **Andreas Kontarinis** (original Jooml
   - number of items
   - ordering (publish date / create date / ordering / random)
   - theme (dark/light/stitch/basic) or custom class
+  - optional compact mobile mode (breakpoint + mobile tab width + mobile image height)
   - autoplay, pause on hover, speeds, easing, rounded corners, numbering
 - Captions (optional, per element):
   - image caption (from article image JSON caption)

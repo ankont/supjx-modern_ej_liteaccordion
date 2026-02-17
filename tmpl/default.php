@@ -34,6 +34,10 @@ $fldPauseOnHover   = $params->get('ejla_pauseonhover', 1);
 $fldCycleSpeed     = (int) $params->get('ejla_cyclespeed', 6000);
 $fldSlideSpeed     = (int) $params->get('ejla_slidespeed', 800);
 $fldHeaderWidth    = (int) $params->get('ejla_headerwidth', 48);
+$fldMobileCompact    = (int) $params->get('ejla_mobile_compact', 0);
+$fldMobileBreakpoint = max(320, (int) $params->get('ejla_mobile_breakpoint', 768));
+$fldMobileHeaderWidth= max(1, (int) $params->get('ejla_mobile_headerwidth', 36));
+$fldMobilePicHeight  = max(1, (int) $params->get('ejla_mobile_pic_height', 280));
 $fldPHolderColor   = $params->get('ejla_placeholder_color', '');
 $fldPHolderCss     = $params->get('ejla_placeholder_css', '');
 $fldPHolderImage   = $params->get('ejla_placeholder_image', '');
@@ -168,10 +172,40 @@ function renderStyle(string $color, string $css, string $style = ''): string
         var parentWidth = jQuery('.ejla-frame<?php echo $specialinstance; ?>').parent().width();
         var newwidth = parentWidth - acw;
 
-        var headerWidthPx     = <?php echo $fldHeaderWidth; ?>;
+        var desktopHeaderWidthPx = <?php echo $fldHeaderWidth; ?>;
+        var desktopHeightPx      = <?php echo $fldPicHeight; ?>;
+        var mobileCompactEnabled = <?php echo $fldMobileCompact; ?> === 1;
+        var mobileBreakpointPx   = <?php echo $fldMobileBreakpoint; ?>;
+        var mobileHeaderWidthPx  = <?php echo $fldMobileHeaderWidth; ?>;
+        var mobileHeightPx       = <?php echo $fldMobilePicHeight; ?>;
+        var viewportWidth        = jQuery(window).width();
+        var isCompactLayout      = mobileCompactEnabled && ((viewportWidth <= mobileBreakpointPx) || (parentWidth <= mobileBreakpointPx));
+
+        var activeHeaderWidthPx = desktopHeaderWidthPx;
+        var activeHeightPx      = desktopHeightPx;
+
+        if (isCompactLayout) {
+            activeHeaderWidthPx = mobileHeaderWidthPx;
+            activeHeightPx = mobileHeightPx;
+        }
+
+        var mobileScale = 1;
+        if (isCompactLayout && desktopHeightPx > 0) {
+            mobileScale = activeHeightPx / desktopHeightPx;
+            if (mobileScale < 0.68) {
+                mobileScale = 0.68;
+            }
+        }
+        if (mobileScale > 1) {
+            mobileScale = 1;
+        }
+        jQuery('.ejla-frame<?php echo $specialinstance; ?>')
+            .toggleClass('ejla-compact', isCompactLayout)
+            .css('--ejla-mobile-scale', mobileScale.toFixed(3));
+
         var largeImageWidthPx = <?php echo $fldPicWidth; ?>;
         var itemCount         = <?php echo count($list); ?>;
-        var maxlightacc = (itemCount * headerWidthPx) + largeImageWidthPx;
+        var maxlightacc = (itemCount * activeHeaderWidthPx) + largeImageWidthPx;
         if (newwidth > maxlightacc) {
             newwidth = maxlightacc;
         }
@@ -187,9 +221,9 @@ function renderStyle(string $color, string $css, string $style = ''): string
             },
             activateOn           : '<?php echo $fldActivation; ?>',
             autoPlay             : <?php echo $fldAutostart; ?>,
-            containerHeight      : <?php echo $fldPicHeight; ?>,
+            containerHeight      : activeHeightPx,
             containerWidth       : newwidth,
-            headerWidth          : headerWidthPx,
+            headerWidth          : activeHeaderWidthPx,
             pauseOnHover         : <?php echo $fldPauseOnHover; ?>,
             theme                : '<?php
                                         if (isset($_GET['theme'])) {
@@ -236,17 +270,18 @@ function renderStyle(string $color, string $css, string $style = ''): string
     }
 
     .ejla-frame<?php echo $specialinstance; ?> {
+        --ejla-mobile-scale: 1;
         margin: 0 auto;
         <?php echo $fldFrameCss; ?>
     }
 
     span.ej<?php echo $specialinstance; ?>_created_date {
-        font-size: 11px;
+        font-size: calc(11px * var(--ejla-mobile-scale));
         <?php echo $fldDateCss; ?>
     }
 
     span.ej<?php echo $specialinstance; ?>_created_by {
-        font-size: 11px;
+        font-size: calc(11px * var(--ejla-mobile-scale));
         <?php echo $fldAuthorCss; ?>
     }
 
@@ -269,15 +304,22 @@ function renderStyle(string $color, string $css, string $style = ''): string
         max-width: <?php echo $fldPicWidth; ?>px;
     }
 
+    .ejla-frame<?php echo $specialinstance; ?> .liteAccordion .slide > h2 {
+        font-size: calc(16px * var(--ejla-mobile-scale));
+    }
+
     .ejla-frame<?php echo $specialinstance; ?> figcaption {
         width: 50%;
-        padding: 12px 10px;
+        padding: calc(12px * var(--ejla-mobile-scale)) calc(10px * var(--ejla-mobile-scale));
         position: absolute;
-        bottom: 20px;
-        right: 30px;
+        bottom: calc(20px * var(--ejla-mobile-scale));
+        right: calc(30px * var(--ejla-mobile-scale));
         z-index: 3;
         background: rgba(0, 0, 0, 0.7);
         color: white;
+        font-size: calc(16px * var(--ejla-mobile-scale));
+        line-height: 1.35;
+        box-sizing: border-box;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
@@ -285,13 +327,44 @@ function renderStyle(string $color, string $css, string $style = ''): string
     }
 
     .ejla-frame<?php echo $specialinstance; ?> figcaption h2 {
-        margin: 0 0 10px 0;
-        font-size: 24px;
+        margin: 0 0 calc(10px * var(--ejla-mobile-scale)) 0;
+        font-size: calc(24px * var(--ejla-mobile-scale));
+        line-height: 1.2;
+    }
+
+    .ejla-frame<?php echo $specialinstance; ?> figcaption,
+    .ejla-frame<?php echo $specialinstance; ?> figcaption h2,
+    .ejla-frame<?php echo $specialinstance; ?> figcaption a,
+    .ejla-frame<?php echo $specialinstance; ?> figcaption span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .ejla-frame<?php echo $specialinstance; ?> figcaption img {
+        max-width: calc(100px * var(--ejla-mobile-scale));
+        max-height: calc(100px * var(--ejla-mobile-scale));
     }
 
     .ejla-frame<?php echo $specialinstance; ?> figcaption h2.title,
     .ejla-frame<?php echo $specialinstance; ?> figcaption h2.title a {
         <?php echo $fldTitleCss; ?>
+    }
+
+    .ejla-frame<?php echo $specialinstance; ?>.ejla-compact figcaption {
+        left: auto;
+        right: 10px;
+        width: 72%;
+        max-width: calc(100% - 20px);
+        bottom: 10px;
+        max-height: calc(100% - 20px);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+    }
+
+    .ejla-frame<?php echo $specialinstance; ?>.ejla-compact .liteAccordion .slide > h2 span {
+        padding-right: 4%;
     }
 
     .ejla-frame<?php echo $specialinstance; ?> h2 span {
@@ -389,8 +462,8 @@ function renderStyle(string $color, string $css, string $style = ''): string
 					}
 				}
 
-				$stylePos = 'width: ' . $fldPicWidth . 'px; height: ' . $fldPicHeight . 'px; ';
-				$styleFit = 'object-position: 50% 50%; object-fit: ' . htmlspecialchars($fldPicFit, ENT_QUOTES, 'UTF-8') . '; background-';
+				$stylePos = 'width: 100%; height: 100%; ';
+				$styleFit = 'object-position: 50% 50%; object-fit: ' . htmlspecialchars($fldPicFit, ENT_QUOTES, 'UTF-8') . ';';
 				$attrStylePic = renderStyle($fldPHolderColor, $fldPicCss, $stylePos . $styleFit);
 
 				if ($fldShowThumb) {

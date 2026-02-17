@@ -213,6 +213,44 @@
           min="1" />
 
         <field
+          name="ejla_mobile_compact"
+          type="radio"
+          class="btn-group"
+          default="0"
+          label="MOD_EJ_LITEACCORDION_FIELD_MOBILE_COMPACT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_MOBILE_COMPACT_DESC">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field
+          name="ejla_mobile_breakpoint"
+          type="number"
+          default="768"
+          label="MOD_EJ_LITEACCORDION_FIELD_MOBILE_BREAKPOINT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_MOBILE_BREAKPOINT_DESC"
+          min="320"
+          showon="ejla_mobile_compact:1" />
+
+        <field
+          name="ejla_mobile_headerwidth"
+          type="number"
+          default="36"
+          label="MOD_EJ_LITEACCORDION_FIELD_MOBILE_HEADER_WIDTH_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_MOBILE_HEADER_WIDTH_DESC"
+          min="1"
+          showon="ejla_mobile_compact:1" />
+
+        <field
+          name="ejla_mobile_pic_height"
+          type="number"
+          default="280"
+          label="MOD_EJ_LITEACCORDION_FIELD_MOBILE_HEIGHT_LABEL"
+          description="MOD_EJ_LITEACCORDION_FIELD_MOBILE_HEIGHT_DESC"
+          min="1"
+          showon="ejla_mobile_compact:1" />
+
+        <field
           name="ejla_pic_link"
           type="radio"
           class="btn-group"
