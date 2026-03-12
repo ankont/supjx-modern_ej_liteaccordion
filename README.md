@@ -91,6 +91,31 @@ The version is read from `module/mod_ej_liteaccordion.xml`.
 
 ---
 
+## GitHub Releases
+
+This repository can publish the Joomla installable ZIP automatically through GitHub Actions.
+
+Release flow:
+1. Update the version in `module/mod_ej_liteaccordion.xml`.
+2. Commit and push your changes.
+3. Create a Git tag that matches the manifest version, prefixed with `v`:
+
+```powershell
+git tag v2.0.0
+git push origin v2.0.0
+```
+
+4. GitHub Actions will:
+   - run `build/build.ps1`
+   - create or update a GitHub Release for that tag
+   - upload the generated ZIP from `build/output/`
+
+Important:
+- The tag must match the manifest version. Example: tag `v2.0.0` must match manifest version `2.0.0`.
+- The installable ZIP stays out of git history and is distributed through the GitHub Release page instead.
+
+---
+
 ## Files & Structure
 
 - `module/mod_ej_liteaccordion.php` - module entry point (loads assets, gets list, calls layout)
