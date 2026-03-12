@@ -1,8 +1,18 @@
 # EJ LiteAccordion (Joomla 4/5/6 Module)
 
-A Joomla module that displays articles as a horizontal **LiteAccordion** image slider (jQuery-based), using Nicola Hibbert’s **liteAccordion v2.2.0**. Images, titles and optional caption elements (date, author, intro, readmore, thumbnail) are pulled from Joomla content.  
+A Joomla module that displays articles as a horizontal **LiteAccordion** image slider (jQuery-based), using Nicola Hibbert's **liteAccordion v2.2.0**. Images, titles and optional caption elements (date, author, intro, readmore, thumbnail) are pulled from Joomla content.
 
 Ported and modernized for Joomla 4/5/6 by **Andreas Kontarinis** (original Joomla 3 module by **Element J**).
+
+---
+
+## Repository Layout
+
+- `module/` contains the installable Joomla module source.
+- `build/build.ps1` creates the installable ZIP from the contents of `module/`.
+- `build/output/` contains generated ZIP artifacts.
+- `build/stage/` is a temporary staging area used during packaging.
+- `build.bat` is a Windows shortcut for the PowerShell build script.
 
 ---
 
@@ -22,10 +32,10 @@ Ported and modernized for Joomla 4/5/6 by **Andreas Kontarinis** (original Jooml
   - date (language-aware Joomla date formats + custom format)
   - author
   - intro text (with optional fallback to fulltext)
-  - read more (with optional “always show”)
+  - read more (with optional "always show")
   - thumbnail inside caption (optional fallback)
 - **Placeholder support** when an item has no image (background color / css / image)
-- Responsive handling: recalculates width only on **real width changes** (prevents mobile scroll “jump”)
+- Responsive handling: recalculates width only on **real width changes** (prevents mobile scroll "jump")
 
 ---
 
@@ -35,21 +45,21 @@ Ported and modernized for Joomla 4/5/6 by **Andreas Kontarinis** (original Jooml
 - PHP **8.0+** recommended
 - A template that loads Bootstrap is fine, but not required
 - jQuery:
-  - The module can use Joomla’s built-in jQuery (`jquery.framework`) if enabled
+  - The module can use Joomla's built-in jQuery (`jquery.framework`) if enabled
   - liteAccordion depends on jQuery (and easing file provided)
 
 ---
 
 ## Installation
 
-### Option A — Install as ZIP (recommended)
+### Option A - Install as ZIP (recommended)
 1. Download or build the installable ZIP from this repository.
-2. In Joomla Administrator: **System → Install → Extensions**
+2. In Joomla Administrator: **System -> Install -> Extensions**
 3. Upload the ZIP.
-4. Go to **Content → Site Modules**, create a new module instance: **EJ LiteAccordion**.
+4. Go to **Content -> Site Modules**, create a new module instance: **EJ LiteAccordion**.
 
-### Option B — Manual install (development)
-Copy files into:
+### Option B - Manual install (development)
+Copy the contents of `module/` into:
 - `modules/mod_ej_liteaccordion/`
 - `media/mod_ej_liteaccordion/`
 
@@ -57,19 +67,43 @@ Then install via Joomla Extension Manager (or use a packaged ZIP).
 
 ---
 
+## Build
+
+Run either:
+
+```bat
+build.bat
+```
+
+or:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build\build.ps1
+```
+
+The generated package is written to:
+
+```text
+build/output/mod_ej_liteaccordion-vX.Y.Z.zip
+```
+
+The version is read from `module/mod_ej_liteaccordion.xml`.
+
+---
+
 ## Files & Structure
 
-- `mod_ej_liteaccordion.php` — module entry point (loads assets, gets list, calls layout)
-- `helper.php` — retrieves articles list
-- `tmpl/default.php` — rendering + JS init code
-- `media/mod_ej_liteaccordion/css/liteaccordion.css` — core slider styles
-- `media/mod_ej_liteaccordion/js/liteaccordion.jquery.min.js` — liteAccordion plugin
-- `media/mod_ej_liteaccordion/js/easing.js` — easing functions
+- `module/mod_ej_liteaccordion.php` - module entry point (loads assets, gets list, calls layout)
+- `module/helper.php` - retrieves articles list
+- `module/tmpl/default.php` - rendering + JS init code
+- `module/media/css/liteaccordion.css` - core slider styles
+- `module/media/js/liteaccordion.jquery.min.js` - liteAccordion plugin
+- `module/media/js/easing.js` - easing functions
 - Language files:
-  - `language/en-GB/en-GB.mod_ej_liteaccordion.ini`
-  - `language/en-GB/en-GB.mod_ej_liteaccordion.sys.ini`
-  - `language/el-GR/el-GR.mod_ej_liteaccordion.ini`
-  - `language/el-GR/el-GR.mod_ej_liteaccordion.sys.ini`
+  - `module/language/en-GB/mod_ej_liteaccordion.ini`
+  - `module/language/en-GB/mod_ej_liteaccordion.sys.ini`
+  - `module/language/el-GR/mod_ej_liteaccordion.ini`
+  - `module/language/el-GR/mod_ej_liteaccordion.sys.ini`
 
 ---
 
@@ -92,23 +126,24 @@ Used when an article has no image:
 - placeholder image file (optional)
 
 ### Advanced
-- Optional “load jQuery” toggle (use Joomla’s framework)
+- Optional "load jQuery" toggle (use Joomla's framework)
 
 ---
 
 ## Notes / Known Limitations
 
-- liteAccordion **2.2.0** is an older library (2013). It works well, but it’s not a modern touch-optimized slider.
+- liteAccordion **2.2.0** is an older library (2013). It works well, but it's not a modern touch-optimized slider.
 - If you need true mobile swipe support, consider migrating to a modern slider library.
 - Styling is intentionally split:
-  - static CSS in `media/.../liteaccordion.css`
+  - static CSS in `module/media/css/liteaccordion.css`
   - admin-entered per-instance CSS via module params (inline output)
+- The build ZIP contains the contents of `module/` at the archive root, so it stays Joomla-installable.
 
 ---
 
 ## Credits
 
-- **liteAccordion v2.2.0** by **Nicola Hibbert** (MIT License)  
+- **liteAccordion v2.2.0** by **Nicola Hibbert** (MIT License)
   Original project: http://nicolahibbert.com/liteaccordion-v2/ (historical)
 - Original Joomla 3 module by **Element J**
 - Joomla 4/5/6 port and modernization by **Andreas Kontarinis**
@@ -117,8 +152,8 @@ Used when an article has no image:
 
 ## License
 
-This module is released under the **GNU GPL v2 or later** (as per Joomla extension norms).  
-Included third-party JS (liteAccordion) is MIT licensed—see header in the JS file.
+This module is released under the **GNU GPL v2 or later** (as per Joomla extension norms).
+Included third-party JS (liteAccordion) is MIT licensed; see header in the JS file.
 
 ---
 
